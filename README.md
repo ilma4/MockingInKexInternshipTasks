@@ -8,7 +8,7 @@ interested methods and that's it.
 
 Limitations:
 
-1. Can't mock `final` classes and `final` members (methods, inner classes, fields)
+1. Can't mock `final` classes and `final` members (methods, nested classes, fields)
     - Can't mock enums and records
 2. Can't avoid executing constructors
     - Have to provide all dependencies (or their mocks)
@@ -21,33 +21,25 @@ All that problems solved in mocking frameworks (at least in Mockito).
 
 ## Task 2.
 
-I think, main problem will be invariants. They may be simple and explicit:
+### Methods
 
-```java
-record PositiveInt(int value) {
+I think, main problem will not with fields but with methods. Because unknown method can cause
+unknown side effects, up to finishing program.
 
-    PositiveInt {
-        assert value > 0;
-    }
-}
-```
+I suppose more practical would be to suppose, that object would only change its own state and state
+of arguments passed to methods.
 
-```java
-record PrimeInt(int value) {
+Scenario when side effects affects global and system variables could be optional.
 
-    PrimeInt {
-        assert isPrime(value);
-    }
-}
-```
+### Fields
 
-```java
-record Example(int value) {
+Other problem is invariants. Some of them are explicit (in constructor) which is good for SE.
+But I suppose more problems would cause implicit, especially which only can be found when analyzing
+program from the beginning.
 
-
-}
-
-```
+However, I suppose it is a good place for reusing previous results. Idea: committed changes, then
+run SE. It found a bug in a method. I edit that method (and only it). After that SE can check only
+that buggy method.
 
 ## Task 3
 
