@@ -17,13 +17,14 @@ class ExampleMutTest {
     @BeforeEach
     void setup() {
         argument = Mockito.mock(I.class);
+        Mockito.when(argument.name()).thenReturn("'argument.name()'");
+
         example = new Example();
     }
 
     @Test
     void branchIsStable() {
         Mockito.when(argument.nextValue()).thenReturn(1, 2, 3);
-        Mockito.when(argument.name()).thenReturn("I");
 
         assertEquals(3, example.mut(argument));
     }
@@ -31,7 +32,6 @@ class ExampleMutTest {
     @Test
     void branchIsUnstable() {
         Mockito.when(argument.nextValue()).thenReturn(1, -2);
-        Mockito.when(argument.name()).thenReturn("I");
 
         assertThrows(IllegalStateException.class, () -> example.mut(argument));
     }

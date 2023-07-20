@@ -1,12 +1,14 @@
+# Mocking in Kex
+
 ## Task 1.
 
-It's possible to generate a class in runtime (in bytecode or in source and then compile), load it
-and then use it. So we can make this class an inherited from required to mock, override
+It's possible to generate a class in runtime, load it and then use it. So we can make this class an
+inherited from required to mock, override
 interested methods and that's it.
 
 Limitations:
 
-1. Can't mock `final` classes, `final` methods and `final` inner classes
+1. Can't mock `final` classes and `final` members (methods, inner classes, fields)
     - Can't mock enums and records
 2. Can't avoid executing constructors
     - Have to provide all dependencies (or their mocks)
@@ -39,12 +41,16 @@ record PrimeInt(int value) {
 }
 ```
 
-
 ```java
-record Example(int value){
-    
-    
+record Example(int value) {
+
+
 }
 
 ```
 
+## Task 3
+
+Tested class and interface are [here](src/main/java/org/example/Example.java)
+
+[Test](/src/test/java/org/example/ExampleMutTest.java)
